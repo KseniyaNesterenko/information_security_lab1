@@ -126,10 +126,56 @@ Authorization: Bearer <accessToken>
 В пайплайне выполняются:
 
 - **SAST (Static Analysis)**: запуск SpotBugs для анализа исходного кода
+  <img width="745" height="199" alt="image" src="https://github.com/user-attachments/assets/b924ca82-92ee-44ab-a288-4768e04e77aa" />
+
 - **SCA (Dependency Scanning)**: проверка зависимостей на уязвимости с помощью OWASP Dependency-Check 
 
-<img width="407" height="455" alt="image" src="https://github.com/user-attachments/assets/a349a219-c4da-478e-a1d3-89a2ce35c827" />
+<img width="1288" height="387" alt="image" src="https://github.com/user-attachments/assets/5b8eda1c-20e9-4996-b135-3fcd1a9bd9ee" />
+<img width="1171" height="130" alt="image" src="https://github.com/user-attachments/assets/3a7e0589-7df8-4da0-917f-a95c52e2b6b9" />
 
+В отчете упоминается уязвимость `CVE-2018-1258`, актуальная для Spring Framework version 5.0.5. Проверим версию в моем проекте:
+
+```bash
+ mvn dependency:tree | grep spring
+```
+
+```bash
+[INFO] +- org.springframework.boot:spring-boot-starter-web:jar:3.5.6:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter:jar:3.5.6:compile
+[INFO] |  |  +- org.springframework.boot:spring-boot:jar:3.5.6:compile
+[INFO] |  |  +- org.springframework.boot:spring-boot-autoconfigure:jar:3.5.6:compile
+[INFO] |  |  +- org.springframework.boot:spring-boot-starter-logging:jar:3.5.6:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter-json:jar:3.5.6:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter-tomcat:jar:3.5.6:compile
+[INFO] |  +- org.springframework:spring-web:jar:6.2.11:compile
+[INFO] |  |  +- org.springframework:spring-beans:jar:6.2.11:compile
+[INFO] |  \- org.springframework:spring-webmvc:jar:6.2.11:compile
+[INFO] |     +- org.springframework:spring-context:jar:6.2.11:compile
+[INFO] |     \- org.springframework:spring-expression:jar:6.2.11:compile
+[INFO] +- org.springframework.boot:spring-boot-starter-security:jar:3.5.6:compile
+[INFO] |  +- org.springframework:spring-aop:jar:6.2.11:compile
+[INFO] |  +- org.springframework.security:spring-security-config:jar:6.5.5:compile
+[INFO] |  \- org.springframework.security:spring-security-web:jar:6.5.5:compile
+[INFO] +- org.springframework.boot:spring-boot-starter-data-jpa:jar:3.5.6:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter-jdbc:jar:3.5.6:compile
+[INFO] |  |  \- org.springframework:spring-jdbc:jar:6.2.11:compile
+[INFO] |  +- org.springframework.data:spring-data-jpa:jar:3.5.4:compile
+[INFO] |  |  +- org.springframework.data:spring-data-commons:jar:3.5.4:compile
+[INFO] |  |  +- org.springframework:spring-orm:jar:6.2.11:compile
+[INFO] |  |  +- org.springframework:spring-tx:jar:6.2.11:compile
+[INFO] |  \- org.springframework:spring-aspects:jar:6.2.11:compile
+[INFO] +- org.springframework.boot:spring-boot-starter-test:jar:3.5.6:test
+[INFO] |  +- org.springframework.boot:spring-boot-test:jar:3.5.6:test
+[INFO] |  +- org.springframework.boot:spring-boot-test-autoconfigure:jar:3.5.6:test
+[INFO] |  +- org.springframework:spring-core:jar:6.2.11:compile
+[INFO] |  |  \- org.springframework:spring-jcl:jar:6.2.11:compile
+[INFO] |  +- org.springframework:spring-test:jar:6.2.11:test
+[INFO] +- org.springframework.security:spring-security-test:jar:6.5.5:test
+[INFO] |  \- org.springframework.security:spring-security-core:jar:6.5.5:compile
+[INFO] |     \- org.springframework.security:spring-security-crypto:jar:6.5.5:compile
+```
+
+Такая версия в моем проекте не используется, следовательно, уязвимость `CVE-2018-1258` в моем случае неактуальна.
 
 
 [![Ссылка на последний успешный запуск pipeline](https://github.com/KseniyaNesterenko/information_security_lab1/actions/workflows/ci.yml/badge.svg)](https://github.com/KseniyaNesterenko/information_security_lab1/actions/workflows/ci.yml)
